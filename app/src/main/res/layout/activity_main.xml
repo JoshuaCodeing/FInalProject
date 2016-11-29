@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ff6666"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.joshua.finalproject.MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/whiteText"
+        android:text="UserName "
+        android:fontFamily="sans-serif"
+        android:textSize="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF7666"
+        android:textColor="#fff"
+        android:id="@+id/userName"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/whiteText"
+        android:text="Password "
+        android:textSize="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF7666"
+        android:inputType="textPassword"
+        android:id="@+id/password"/>
+    <Button
+        android:layout_width="250dp"
+        android:textColor="@color/whiteText"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPassword"
+        android:text="Login"
+        android:background="#ff4d4d"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:onClick="login"/>
+    <Button
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Edit"
+        android:background="#ff6666"
+        android:onClick="EDIT"
+        />
+
+</LinearLayout>
