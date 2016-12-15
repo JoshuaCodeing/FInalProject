@@ -29,20 +29,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
     class LearnGesture extends GestureDetector.SimpleOnGestureListener{
-
         public  boolean onFling(MotionEvent event1, MotionEvent event2,
                                 float velocityx, float velocityY){
             if(event2.getX() > event1.getX()){
                 Intent intent1 = new Intent(MainActivity.this,AllPhoto.class);
                 finish();
                 startActivity(intent1);
-
             }else
                 if(event2.getX()<event1.getX()){
                     Intent intent = new Intent(MainActivity.this, pictures.class);
                     finish();
                     startActivity(intent);
-
                 }
             return true;
         }

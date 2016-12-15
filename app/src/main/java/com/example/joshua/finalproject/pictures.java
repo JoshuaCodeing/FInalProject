@@ -1,46 +1,32 @@
 package com.example.joshua.finalproject;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -51,6 +37,7 @@ public class pictures extends AppCompatActivity {
     public final static String USER_NAME ="com.example.student.login1";
     public final static String PASSWORD ="com.example.student.login2";
    // TextView textView = (TextView) findViewById(R.id.tect);
+    LinearLayout layout;
     ImageView imageView;
     private GestureDetectorCompat gestureDetectorCompat;
     @Override
@@ -82,13 +69,37 @@ public class pictures extends AppCompatActivity {
         * */
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "https://8gaj4yt8ka.execute-api.us-west-2.amazonaws.com/final/getuser?ID="+userId;
-
+            layout = (LinearLayout) findViewById(R.id.layout);
         JsonObjectRequest get = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("response",response.toString());
-               Toast.makeText(pictures.this, "Response"+response, Toast.LENGTH_SHORT).show();
-               // textView.setText(response.toString());
+                ArrayList<String> res = new ArrayList<String>();
+                List<JSONArray> array = new ArrayList<>();
+                String s="";
+                try {
+                   final JSONArray ITEMS = response.getJSONArray("Items");
+                    final JSONArray LIKES = null;
+                    for(int i = 0; i < ITEMS.length();i++){
+                        try{
+                            JSONArray likes = ITEMS.getJSONObject(i).getJSONArray("Likes");
+                            for(int j =0; j<likes.length(); j++){
+                                WebView web = new WebView(pictures.this);
+                                web.getSettings().setJavaScriptEnabled(true);
+                                web.loadUrl(likes.get(j).toString());
+                                layout.addView(web,new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                //layout;
+                                //break;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -96,22 +107,22 @@ public class pictures extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error", error.toString());
 
-
             }
         });
         queue.add(get);
-
-
-
-
-      //  final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.activity_pictures);
-
     }
-
-
-
-
-
+public JSONArray parseJson(JSONObject response) {
+    List<JSONArray> res = new ArrayList<>();
+    JSONArray LIKES = null;
+    try {
+        LIKES = (new JSONObject(String.valueOf(response))).getJSONArray("Likes");
+        List<JSONArray> array = new ArrayList<>();
+        array.add(LIKES);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return LIKES;
+}
 
     public void back(View view){
         Intent intent = new Intent(this,MainActivity.class);
